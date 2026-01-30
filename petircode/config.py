@@ -38,6 +38,7 @@ class Config:
     # Claude Code CLI settings
     CLAUDE_CLI_PATH = os.getenv('CLAUDE_CLI_PATH', 'claude')
     CLAUDE_TIMEOUT = int(os.getenv('CLAUDE_TIMEOUT', '300'))
+    CLAUDE_WORK_DIR = os.getenv('CLAUDE_WORK_DIR', r'C:\workspace\claudework')
 
     @classmethod
     def validate(cls):

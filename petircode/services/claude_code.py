@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 async def execute_claude_code(operation: str, timeout: int = None) -> dict:
     """
-    Execute a Claude Code CLI operation
+    Execute Claude Code CLI operation via PowerShell in specified working directory
 
     Args:
         operation: The operation description to execute
@@ -29,11 +29,19 @@ async def execute_claude_code(operation: str, timeout: int = None) -> dict:
     if timeout is None:
         timeout = config.CLAUDE_TIMEOUT
 
+    # Build PowerShell command to change directory and run claude
+    powershell_cmd = (
+        f'powershell.exe -Command "'
+        f'cd \'{config.CLAUDE_WORK_DIR}\'; '
+        f'{config.CLAUDE_CLI_PATH} \'{operation}\'"'
+    )
+
+    logger.info(f"Executing command: {powershell_cmd}")
+
     try:
-        # Create subprocess to run claude CLI
-        process = await asyncio.create_subprocess_exec(
-            config.CLAUDE_CLI_PATH,
-            operation,
+        # Create subprocess to run PowerShell command
+        process = await asyncio.create_subprocess_shell(
+            powershell_cmd,
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE
         )
@@ -53,6 +61,8 @@ async def execute_claude_code(operation: str, timeout: int = None) -> dict:
         stdout_text = stdout.decode('utf-8', errors='replace')
         stderr_text = stderr.decode('utf-8', errors='replace')
 
+        logger.info(f"Command completed with return code: {process.returncode}")
+
         return {
             'stdout': stdout_text,
             'stderr': stderr_text,
@@ -60,12 +70,6 @@ async def execute_claude_code(operation: str, timeout: int = None) -> dict:
             'success': process.returncode == 0
         }
 
-    except FileNotFoundError:
-        logger.error(f"Claude CLI not found at: {config.CLAUDE_CLI_PATH}")
-        raise Exception(
-            "Claude Code CLI not found. Please install it first.\n"
-            "Visit: https://github.com/anthropics/claude-code"
-        )
     except Exception as e:
-        logger.error(f"Error executing Claude Code: {e}")
+        logger.error(f"Error executing Claude Code: {e}", exc_info=True)
         raise
