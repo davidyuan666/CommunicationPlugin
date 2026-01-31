@@ -27,7 +27,7 @@ cp .env.example .env
 使用以下命令将此 MCP 服务器添加到 Claude Code CLI：
 
 ```bash
-claude mcp add telegram-bot -e TELEGRAM_BOT_TOKEN=7871305869:AAECL5dp4eItPvHhiJ9UxEuzPweGKHcXjNM -- python C:\workspace\claudecodelabspace\TelegramBotMCP\mcp_server.py
+claude mcp add telegram-bot -e TELEGRAM_BOT_TOKEN=XXXXXXX -- python C:\workspace\claudecodelabspace\TelegramBotMCP\mcp_server.py
 ```
 
 ## 可用工具
