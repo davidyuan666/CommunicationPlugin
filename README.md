@@ -1,13 +1,24 @@
 # CommunicationPlugin
 
-Telegram机器人插件，集成DeepSeek AI和Claude Code CLI功能。
+简单的 Telegram 消息桥接机器人。
 
 ## 功能特性
 
-- **DeepSeek AI集成**: 使用 `/deepseek <问题>` 调用本地DeepSeek AI
-- **Claude Code CLI集成**: 使用 `/claude <操作>` 调用本地Claude Code CLI执行操作
-- **实时状态推送**: 执行过程中实时推送状态更新到Telegram
-- **URL内容获取**: 使用 `/fetch <url>` 获取网页内容
+- **消息接收**: 接收来自 Telegram 的消息
+- **消息推送**: 推送结果到 Telegram App
+- **Claude Code CLI 集成**: 将任务转发给 Claude Code CLI 处理
+
+## 设计理念
+
+本项目专注于消息的接收和推送，不包含任何业务逻辑：
+- ✅ 接收 Telegram 消息
+- ✅ 推送消息到 Telegram
+- ✅ 调用 Claude Code CLI 执行任务
+- ❌ 不包含搜索功能
+- ❌ 不包含 AI 对话功能
+- ❌ 不包含数据处理逻辑
+
+所有业务逻辑（搜索、分析、处理等）都由 Claude Code CLI 或其他第三方工具完成。
 
 ## 快速开始
 
@@ -19,7 +30,6 @@ pip install -r requirements.txt
 2. 配置环境变量（复制.env.example为.env并填写）:
 ```
 TELEGRAM_BOT_TOKEN=your_bot_token
-DEEPSEEK_API_KEY=your_deepseek_key
 CLAUDE_WORK_DIR=C:\workspace\claudecodelabspace
 ```
 
@@ -32,7 +42,15 @@ python -m petircode.main
 
 - `/start` - 启动机器人
 - `/help` - 显示帮助信息
-- `/deepseek <问题>` - 使用DeepSeek AI回答问题
-- `/claude <操作>` - 使用Claude Code CLI执行操作
-- `/fetch <url>` - 从URL获取内容
+- `/info` - 获取机器人信息
+- `/claude <操作>` - 使用 Claude Code CLI 执行操作
 
+## 使用示例
+
+```
+/claude 搜索 Claude 3.5 Sonnet 相关信息
+/claude 列出当前目录的文件
+/claude 帮我分析这段代码
+```
+
+机器人会将任务转发给 Claude Code CLI，并将结果推送回 Telegram。

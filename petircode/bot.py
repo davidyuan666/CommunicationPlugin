@@ -12,11 +12,7 @@ from telegram.ext import (
 )
 
 from .config import config
-from .handlers.commands import (
-    fetch_command,
-    deepseek_command,
-    claude_command
-)
+from .handlers.commands import claude_command
 
 logger = logging.getLogger(__name__)
 
@@ -33,10 +29,8 @@ class PetriBot:
         user = update.effective_user
         await update.message.reply_text(
             f"Hello {user.first_name}! 👋\n\n"
-            "I'm PetriCode bot. I can help you with:\n"
-            "• Message interaction\n"
-            "• External information retrieval\n"
-            "• Data processing\n\n"
+            "I'm PetriCode bot - A simple Telegram message bridge.\n"
+            "I receive messages and forward tasks to Claude Code CLI.\n\n"
             "Use /help to see available commands."
         )
 
@@ -45,12 +39,15 @@ class PetriBot:
         help_text = """
 可用命令:
 
-/start - 检查机器人状态
+/start - 启动机器人
 /help - 显示帮助信息
 /info - 获取机器人信息
-/fetch <url> - 从URL获取内容
-/deepseek <问题> - 使用DeepSeek AI回答问题
 /claude <操作> - 使用Claude Code CLI执行操作
+
+示例:
+• /claude 搜索 Claude 3.5 Sonnet 相关信息
+• /claude 列出当前目录的文件
+• /claude 帮我分析这段代码
 
 发送任何消息，我会回复你！
 """
@@ -59,9 +56,9 @@ class PetriBot:
     async def info_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /info command"""
         info_text = (
-            "🤖 PetriCode Bot v0.1.0\n\n"
-            "A Python-based Telegram bot for message interaction "
-            "and external information retrieval."
+            "🤖 PetriCode Bot v0.2.0\n\n"
+            "A simple Telegram message bridge.\n"
+            "Receives messages and forwards tasks to Claude Code CLI."
         )
         await update.message.reply_text(info_text)
 
@@ -75,8 +72,6 @@ class PetriBot:
         self.application.add_handler(CommandHandler("start", self.start_command))
         self.application.add_handler(CommandHandler("help", self.help_command))
         self.application.add_handler(CommandHandler("info", self.info_command))
-        self.application.add_handler(CommandHandler("fetch", fetch_command))
-        self.application.add_handler(CommandHandler("deepseek", deepseek_command))
         self.application.add_handler(CommandHandler("claude", claude_command))
         self.application.add_handler(
             MessageHandler(filters.TEXT & ~filters.COMMAND, self.echo_message)
