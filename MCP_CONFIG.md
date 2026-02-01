@@ -6,7 +6,7 @@
 
 本项目是一个标准 MCP 服务器，为 Claude Code CLI 提供 Telegram 消息收发能力。
 
-### MCP Server (`mcp_server.py`)
+### MCP Server (`sender_server.py`)
 
 **功能**:
 - `send_telegram_message`: 发送消息到 Telegram
@@ -54,7 +54,7 @@ pip install -r requirements.txt
     "telegram-sender": {
       "command": "python",
       "args": [
-        "C:\\workspace\\claudecodelabspace\\TelegramSenderMCP\\mcp_server.py"
+        "C:\\workspace\\claudecodelabspace\\TelegramSenderMCP\\sender_server.py"
       ],
       "env": {
         "TELEGRAM_BOT_TOKEN": "your_bot_token_here"

@@ -39,7 +39,7 @@ TELEGRAM_BOT_TOKEN=your_bot_token_here
   "mcpServers": {
     "telegram-sender": {
       "command": "python",
-      "args": ["C:\\workspace\\claudecodelabspace\\TelegramSenderMCP\\mcp_server.py"],
+      "args": ["C:\\workspace\\claudecodelabspace\\TelegramSenderMCP\\sender_server.py"],
       "env": {
         "TELEGRAM_BOT_TOKEN": "your_bot_token_here"
       }
