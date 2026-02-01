@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Initialize MCP server
-app = Server("telegram-bot")
+app = Server("telegram-sender")
 
 # Telegram bot instance
 bot: Bot | None = None
